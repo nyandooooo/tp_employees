@@ -290,3 +290,13 @@ function displayHeader(
     <?php
 }
     ?>
+
+    git push -u origin main
+  665  git init
+  666  git remote add origin https://github.com/Sedra276/ANDRANA.git
+  667  git pull -a -m origin master:main
+  668  git pull origin main
+  669  git commit -a -m "domino"
+
+  git commit -a -m "message"
+  git push -u origin main
