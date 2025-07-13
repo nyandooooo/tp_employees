@@ -1,52 +1,89 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Changer de département</title>
     <link href="../assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
     <style>
         body {
-            background: linear-gradient(120deg, #b993d6 0%, #8ca6db 100%);
+            background: #232526;
             min-height: 100vh;
+            color: #f3f3f3;
+            font-family: 'Inter', sans-serif;
         }
+
         .custom-card {
-            background: #fff;
-            border-radius: 22px;
-            box-shadow: 0 8px 32px rgba(50,50,130,0.10);
-            margin-top: 48px;
-            padding: 40px 32px 32px 32px;
+            background: #414345;
+            border-radius: 20px;
+            box-shadow: 0 4px 32px #0005;
+            margin-top: 54px;
+            padding: 38px 28px 32px 28px;
+        }
+        .list-group-item {
+            background: #35363a;
+            color: #e6e8ee;
+            border: none;
+            font-size: 1rem;
         }
         .form-label {
             font-weight: 600;
+            color: #bdbdca;
+        }
+        .form-control, .form-select {
+            background: #35363a;
+            border: 1px solid #414345;
+            color: #f3f3f3;
+            border-radius: 13px;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 2px #667eea44;
+            background: #414345;
+            color: #fff;
         }
         .btn-primary {
-            background: linear-gradient(90deg, #7b2ff2 0%, #f357a8 100%);
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
             border: none;
-            border-radius: 24px;
+            border-radius: 20px;
             font-weight: 600;
-            transition: box-shadow .15s;
+            color: #fff;
+            transition: filter .14s;
         }
         .btn-primary:hover {
-            box-shadow: 0 4px 16px #f357a8a2;
-            background: linear-gradient(90deg, #7b2ff2 20%, #f357a8 100%);
+            filter: brightness(1.10);
         }
-        ul.list-group {
-            border-radius: 15px;
+        .alert-success {
+            background: #243527;
+            color: #43e97b;
+            border: 1px solid #38f9d7;
+        }
+        .alert-danger {
+            background: #3a2323;
+            color: #f5576c;
+            border: 1px solid #f093fb;
+        }
+        .custom-card .fa-building {
+            color: #667eea;
+            margin-right: 5px;
+        }
+        @media (max-width:600px) {
+            .custom-card {padding: 22px 7px 18px 7px;}
         }
     </style>
 </head>
+
 <body>
     <?php
     require("../inc/fonction.php");
     include '../assets/include/header.php';
-
- 
-    displayHeader('#7b2ff2', '#f357a8', 'Salut', 'employee');
+    displayHeader('#232526', '#414345', 'Salut', 'employee');
     if (!isset($_POST['emp_no'])) {
-       $_POST['emp_no'] =$_GET['emp_no'] ;
+        $_POST['emp_no'] = $_GET['emp_no'];
     }
-    
+
     $departementactuel = get_Departement_Actuel($_POST['emp_no']);
     $dep = isset($departementactuel[0]['dept_name']) ? $departementactuel[0]['dept_name'] : 'Inconnu';
     $date = isset($departementactuel[0]['from_date']) ? $departementactuel[0]['from_date'] : 'Inconnue';
@@ -58,10 +95,20 @@
         <div class="row justify-content-center">
             <div class="col-12 col-sm-10 col-md-8 col-lg-6">
                 <div class="custom-card shadow">
+                    <h3 class="mb-4" style="color:#bdbdf0;">
+                        <i class="fa fa-building"></i>
+                        Changer de département
+                    </h3>
                     <ul class="list-group mb-4">
-                        <li class="list-group-item">Numéro employé : <b><?= htmlspecialchars($_POST['emp_no']) ?></b></li>
-                        <li class="list-group-item">Département actuel : <b><?= htmlspecialchars($dep) ?></b></li>
-                        <li class="list-group-item">Date de début : <b><?= htmlspecialchars($date) ?></b></li>
+                        <li class="list-group-item">
+                            Numéro employé : <b><?= htmlspecialchars($_POST['emp_no']) ?></b>
+                        </li>
+                        <li class="list-group-item">
+                            Département actuel : <b><?= htmlspecialchars($dep) ?></b>
+                        </li>
+                        <li class="list-group-item">
+                            Date de début : <b><?= htmlspecialchars($date) ?></b>
+                        </li>
                     </ul>
                     <form action="traitement/traitement_custom_dep.php" method="post">
                         <input type="hidden" name="emp_no" value="<?= htmlspecialchars($_POST['emp_no']) ?>">
@@ -80,31 +127,29 @@
                         </div>
                         <div class="mb-3">
                             <label for="date_debut" class="form-label">Date de début :</label>
-                            <input type="date"
-                                   name="date_debut"
-                                   id="date_debut"
-                                   class="form-control"
-                                   required>
+                            <input type="date" name="date_debut" id="date_debut" class="form-control" required>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100 py-2">Changer</button>
+                        <button type="submit" class="btn btn-primary w-100 py-2">
+                            <i class="fa fa-sync-alt me-2"></i>Changer
+                        </button>
                     </form>
                 </div>
             </div>
         </div>
-<?php
-if (isset($_GET['mess'])) {
-    switch ($_GET['mess']) {
-        case '0':
-            echo '<div class="alert alert-danger mt-3">Date de début doit être supérieure ou égale à la date actuelle.</div>';
-            break;
-        case '1':
-            echo '<div class="alert alert-success mt-3">Changement de département réussi.</div>';
-            break;
-        case '2':
-            echo '<div class="alert alert-danger mt-3">Erreur lors du changement de département ou affectation déjà existante.</div>';
-            break;
-    }
-}?>
+        <?php
+        if (isset($_GET['mess'])) {
+            switch ($_GET['mess']) {
+                case '0':
+                    echo '<div class="alert alert-danger mt-3">Date de début doit être supérieure ou égale à la date actuelle.</div>';
+                    break;
+                case '1':
+                    echo '<div class="alert alert-success mt-3">Changement de département réussi.</div>';
+                    break;
+                case '2':
+                    echo '<div class="alert alert-danger mt-3">Erreur lors du changement de département ou affectation déjà existante.</div>';
+                    break;
+            }
+        } ?>
     </div>
 </body>
 </html>

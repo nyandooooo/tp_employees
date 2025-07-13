@@ -219,7 +219,7 @@ function getPagination($page_size, $total_count, $method = 'get')
     );
 }
 
-//liste emplois de chaque employee
+
 function get_Emploi_Employees($code)
 {
     $sql = "SELECT * FROM v_employees_departments WHERE emp_no = '$code' ORDER BY dept_no ASC";
@@ -229,29 +229,63 @@ function get_Emploi_Employees($code)
 
 function changer_dept($emp_no, $dept_no, $date_debut)
 {
+    $db = dbconnect();
 
-    $sql = "UPDATE dept_emp SET to_date = '$date_debut' WHERE emp_no = '$emp_no' AND to_date = '9999-01-01'";
-    $a = mysqli_query(dbconnect(), $sql);
 
-    $sql = "INSERT INTO dept_emp (emp_no, dept_no, from_date, to_date) VALUES ('$emp_no', '$dept_no', '$date_debut', '9999-01-01')";
-    $b = mysqli_query(dbconnect(), $sql);
-    if ($a && $b && $date_debut) {
-        return true;
-    } else {
+    $sql = "SELECT 1 FROM dept_emp WHERE emp_no = $emp_no AND dept_no = '$dept_no' AND from_date = '$date_debut'";
+    $check = mysqli_query($db, $sql);
+    if (mysqli_num_rows($check) > 0) {
         return false;
     }
+
+
+    $sql = "UPDATE dept_emp SET to_date = '$date_debut' WHERE emp_no = $emp_no AND to_date = '9999-01-01'";
+    $a = mysqli_query($db, $sql);
+
+    $sql = "INSERT INTO dept_emp (emp_no, dept_no, from_date, to_date) VALUES ($emp_no, '$dept_no', '$date_debut', '9999-01-01')";
+    $b = mysqli_query($db, $sql);
+
+    return ($a && $b);
 }
+
+
 
 function get_Departement_Actuel($emp_no)
 {
     $sql = "
-        SELECT d.dept_no, d.dept_name, from_date, to_date
-        FROM dept_emp de
-        JOIN departments d ON de.dept_no = d.dept_no
-        WHERE de.emp_no = '$emp_no'
-          AND de.to_date = '9999-01-01'
-        LIMIT 1
+        SELECT *
+        FROM v_employees_departments
+        WHERE emp_no = $emp_no and to_date = '9999-01-01'
+      
     ";
     return tab($sql);
+}
+
+
+function get_manager($dept_no)
+{
+    $sql = "
+        SELECT *
+        FROM v_departments_managers
+        WHERE dept_no = '$dept_no'
+    ";
+    return tab($sql);
+}
+function changer_manager($emp_no, $dept_no, $date_debut)
+{
+    $db = dbconnect();
+
+    // 1. Clôturer le manager actuel de ce département (fin de mandat)
+    $sql = "UPDATE dept_manager 
+            SET to_date = '$date_debut' 
+            WHERE dept_no = '$dept_no' AND to_date = '9999-01-01'";
+    $a = mysqli_query($db, $sql);
+
+    // 2. Ajouter le nouvel enregistrement manager
+    $sql = "INSERT INTO dept_manager (emp_no, dept_no, from_date, to_date) 
+            VALUES ($emp_no, '$dept_no', '$date_debut', '9999-01-01')";
+    $b = mysqli_query($db, $sql);
+
+    return ($a && $b);
 }
 

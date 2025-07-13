@@ -4,7 +4,10 @@ SELECT
     d.dept_no, 
     e.last_name, 
     e.first_name, 
-    d.dept_name
+    d.dept_name,
+    e.emp_no,
+    m.from_date,
+    m.to_date
 FROM 
     departments d
     JOIN dept_manager m ON d.dept_no = m.dept_no
@@ -24,11 +27,14 @@ SELECT
     employees.last_name,
     departments.dept_no,
     departments.dept_name,
-    employees.gender, 
+    employees.gender,
+    dept_emp.from_date,
+    dept_emp.to_date,
+
     (YEAR(CURDATE()) - YEAR(employees.birth_date)) AS age
 FROM
     employees
     JOIN dept_emp ON employees.emp_no = dept_emp.emp_no
     JOIN departments ON dept_emp.dept_no = departments.dept_no;
 
- 
+ -- 1. Fermer l’ancienne affectation (mettre à jour l'ancien en cours)
