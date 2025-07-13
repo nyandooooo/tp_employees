@@ -30,7 +30,7 @@ $employee = get_Employees_dep($dep_no, $numact);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employés - <?= htmlspecialchars($employee[0]["dept_name"] ?? ''); ?></title>
+    <title>Employés - <?= $employee[0]["dept_name"] ?? ''; ?></title>
     <link href="../assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .table td a {
@@ -76,7 +76,7 @@ $employee = get_Employees_dep($dep_no, $numact);
             (page <?= $current_page . " / " . $total_pages; ?>)
         </div>
         <form action="" method="get" style="display: inline;">
-            <input type="hidden" name="dept_no" value="<?= htmlspecialchars( $dep_no); ?>">
+            <input type="hidden" name="dept_no" value="<?=  $dep_no; ?>">
             <input type="hidden" name="numero" value="<?= $numact; ?>">
             <?php
             if ($numact <= 0) {

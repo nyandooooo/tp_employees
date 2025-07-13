@@ -108,7 +108,7 @@
     $manager = $num ? get_manager($num) : null;
     $manager_nom = 'Aucun manager';
     if ($manager && isset($manager[0]['first_name'], $manager[0]['last_name'])) {
-        $manager_nom = htmlspecialchars($manager[0]['first_name'] . ' ' . $manager[0]['last_name']);
+        $manager_nom = $manager[0]['first_name'] . ' ' . $manager[0]['last_name'];
     }
 
     $listeDepartements = get_Departements();
@@ -124,21 +124,21 @@
                     </h3>
                     <ul class="list-group mb-4">
                         <li class="list-group-item">
-                            Numéro employé : <b><?= htmlspecialchars($_POST['emp_no']) ?></b>
+                            Numéro employé : <b><?= $_POST['emp_no'] ?></b>
                         </li>
                         <li class="list-group-item">
-                            Département actuel : <b><?= htmlspecialchars($dep) ?></b>
+                            Département actuel : <b><?= $dep ?></b>
                         </li>
                         <li class="list-group-item">
-                            Date de début : <b><?= htmlspecialchars($date) ?></b>
+                            Date de début : <b><?= $date ?></b>
                         </li>
                         <li class="list-group-item">
                             Manager actuel du département : <b><?= $manager_nom ?></b>
                         </li>
                     </ul>
                     <form action="traitement/traitement_custom_manager.php" method="post">
-                        <input type="hidden" name="emp_no" value="<?= htmlspecialchars($_POST['emp_no']) ?>">
-                        <input type="hidden" name="dept_no" value="<?= htmlspecialchars($num) ?>">
+                        <input type="hidden" name="emp_no" value="<?= $_POST['emp_no'] ?>">
+                        <input type="hidden" name="dept_no" value="<?= $num ?>">
                         <div class="mb-3">
                             <label for="date_debut" class="form-label">Date de début :</label>
                             <input type="date" name="date_debut" id="date_debut" class="form-control" required>

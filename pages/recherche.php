@@ -1,8 +1,8 @@
 <?php
 
 require("../inc/fonction.php");
-   $search = $_GET['search'];
-    $by = $_GET['by'];
+$search = $_GET['search'];
+$by = $_GET['by'];
 
 $nom = '';
 $departement = '';
@@ -20,7 +20,7 @@ if ($by === 'departement') {
 }
 
 $page_size = 20;
-$count=count_rechercherEmployes($departement, $nom, $age_min, $age_max);
+$count = count_rechercherEmployes($departement, $nom, $age_min, $age_max);
 $pagination = getPagination($page_size, $count, 'get');
 
 $numact = $pagination['offset'];
@@ -88,8 +88,8 @@ $employee = rechercherEmployes($departement, $nom, $age_min, $age_max, $numact);
             (page <?= $current_page . " / " . $total_pages; ?>)
         </div>
         <form action="" method="get" style="display: inline;">
-            <input type="hidden" name="search" value="<?= htmlspecialchars($search); ?>">
-            <input type="hidden" name="by" value="<?= htmlspecialchars($by); ?>">
+            <input type="hidden" name="search" value="<?= ($search); ?>">
+            <input type="hidden" name="by" value="<?= ($by); ?>">
             <input type="hidden" name="numero" value="<?= $numact; ?>">
             <?php
             if ($numact <= 0) {

@@ -101,17 +101,17 @@
                     </h3>
                     <ul class="list-group mb-4">
                         <li class="list-group-item">
-                            Numéro employé : <b><?= htmlspecialchars($_POST['emp_no']) ?></b>
+                            Numéro employé : <b><?= $_POST['emp_no'] ?></b>
                         </li>
                         <li class="list-group-item">
-                            Département actuel : <b><?= htmlspecialchars($dep) ?></b>
+                            Département actuel : <b><?= $dep ?></b>
                         </li>
                         <li class="list-group-item">
-                            Date de début : <b><?= htmlspecialchars($date) ?></b>
+                            Date de début : <b><?= $date ?></b>
                         </li>
                     </ul>
                     <form action="traitement/traitement_custom_dep.php" method="post">
-                        <input type="hidden" name="emp_no" value="<?= htmlspecialchars($_POST['emp_no']) ?>">
+                        <input type="hidden" name="emp_no" value="<?= $_POST['emp_no'] ?>">
                         <div class="mb-3">
                             <label for="dept_no" class="form-label">Nouveau département :</label>
                             <select name="dept_no" id="dept_no" class="form-select" required>
@@ -119,7 +119,7 @@
                                 for ($i = 0; $i < count($listeDepartements); $i++) {
                                     $departement = $listeDepartements[$i];
                                     if ($num != $departement["dept_no"]) {
-                                        echo '<option value="' . htmlspecialchars($departement["dept_no"]) . '">' . htmlspecialchars($departement["dept_name"]) . '</option>';
+                                        echo '<option value="' . $departement["dept_no"] . '">' . $departement["dept_name"] . '</option>';
                                     }
                                 }
                                 ?>
