@@ -261,12 +261,7 @@ function displayHeader(
                                 Statistiques Départements
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link <?php echo getActiveClass('portfolio', $activePage); ?>" href="portfolio.php">
-                                <i class="fas fa-briefcase me-1"></i>
-                                Portfolio
-                            </a>
-                        </li>
+                      
                      
                     </ul>
                     <div class="d-flex align-items-center">
