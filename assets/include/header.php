@@ -290,5 +290,4 @@ function displayHeader(
     <?php
 }
     ?>
-    <p></p>
-    
+  
